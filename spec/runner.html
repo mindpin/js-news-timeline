@@ -1,0 +1,28 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Timeline - Mocha Spec</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./support/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./support/mocha.js"></script>
+    <script src="./support/chai.js"></script>
+    <script src="../js/coffee-script.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <!-- source files -->
+    <script type="text/coffeescript" src="../js/base.js.coffee"></script>
+    <!-- spec files -->
+    <script type="text/coffeescript" src="./base.spec.coffee"></script>
+    <script>
+      $(function() {
+        window.expect = chai.expect
+        mocha.checkLeaks();
+        mocha.globals(['jQuery']);
+        mocha.run();
+      });
+    </script>
+  </body>
+</html>
