@@ -4,6 +4,7 @@ class Timeline extends Base
 
   add_event: (event)->
     @events = @events.concat [event]
+    @
 
   people: ->
     @events
