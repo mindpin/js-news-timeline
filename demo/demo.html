@@ -17,6 +17,24 @@
   <script type="text/coffeescript" src="../js/timeline.js.coffee"></script>
 
   <script type="text/coffeescript">
+    timeline = new Timeline
+
+    event1 = new Event
+      url: 'http://weibo.com/1418521581/A6wuTtFY1'
+      desc: '洋气书生发了条微博'
+      image: 'http://tp2.sinaimg.cn/1418521581/180/5639678895/1'
+      time: new Date('2013-8-26 13:54')
+
+    person1 = new Person
+      name: '洋气书生'
+      weibo: 'http://weibo.com/ben7th'
+
+    person1.add_event event1
+
+    timeline
+      .add_event event1
+
+    window.timeline = timeline
 
   </script>
 </body>
