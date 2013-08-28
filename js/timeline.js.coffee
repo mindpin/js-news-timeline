@@ -1,11 +1,8 @@
 class Timeline extends Base
+  @extend EventContainer
+
   constructor: ->
     @events = []
-
-  add_event: (event)->
-    return @ if @events.indexOf(event) != -1
-    @events = @events.concat [event]
-    @
 
   people: ->
     jQuery.unique @events
