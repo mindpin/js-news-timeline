@@ -1,7 +1,4 @@
 class Base
-  @extend = (inf)->
-    jQuery.extend @::, inf::
-
   constructor: (obj)->
     jQuery.extend @, obj
 
@@ -31,14 +28,18 @@ class Comparable
       return 0  if t1 == t2
       return 1  if t1 <  t2
 
-class EventContainer extends Base
-  @extend Comparable
+class EventContainer
+  jQuery.extend @::, Comparable::
 
   events: []
+
+  link: (event)->
+    event.container = @
 
   add_event: (event)->
     return @ if @events.indexOf(event) != -1
     @events = @events.concat([event]).sort(@compare("time"))
+    @link(event)
     event.add_person(@) if @class_name() == "person"
     @
 

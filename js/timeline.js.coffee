@@ -1,10 +1,11 @@
 class Timeline extends Base
-  @extend EventContainer
+  jQuery.extend @::, EventContainer::
 
   constructor: ->
+    super()
     @events = []
 
-  people: ->
+  persons: ->
     jQuery.unique @events
       .map((e)=> e.persons)
       .reduce((a, b)=> a.concat b)

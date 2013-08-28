@@ -1,7 +1,7 @@
 # 属性: name, weibo, wiki, events
 
 class Person extends Base
-  @extend EventContainer
+  jQuery.extend @::, EventContainer::
 
   constructor: (args)->
     super(args)
