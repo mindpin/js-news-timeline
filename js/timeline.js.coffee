@@ -9,3 +9,6 @@ class Timeline extends Base
     @events
       .map((e)=> e.people)
       .reduce((a, b)=> a.concat b)
+
+jQuery.extend window,
+  Timeline: Timeline

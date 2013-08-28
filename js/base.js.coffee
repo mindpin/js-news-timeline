@@ -16,3 +16,5 @@ class Base
     underscored = name[0] + name.slice(1, name.length).replace(/[A-Z]/g, fn)
     underscored.toLowerCase()
 
+jQuery.extend window,
+  Base: Base

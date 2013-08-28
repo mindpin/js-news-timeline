@@ -6,3 +6,6 @@ class Event extends Base
 
   add_person: (person)->
     @people = @people.concat [person]
+
+jQuery.extend window,
+  Event: Event
