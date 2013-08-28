@@ -5,6 +5,7 @@ class Person extends Base
     @events = []
 
   add_event: (event)->
+    return @ if @events.indexOf(event) != -1
     @events = @events.concat [event]
     event.add_person(@)
     @

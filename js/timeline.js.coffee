@@ -3,6 +3,7 @@ class Timeline extends Base
     @events = []
 
   add_event: (event)->
+    return @ if @events.indexOf(event) != -1
     @events = @events.concat [event]
     @
 
