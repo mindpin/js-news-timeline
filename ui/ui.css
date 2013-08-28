@@ -5,3 +5,17 @@ body {
   font-size: 14px;
   line-height: 1.2em;
   overflow-y: scroll; }
+
+.page-news-timeline {
+  width: 500px;
+  background-color: rgba(255, 255, 255, 0.05);
+  min-height: 100px;
+  position: relative; }
+  .page-news-timeline:before {
+    content: "";
+    position: absolute;
+    left: 249px;
+    width: 2px;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5); }

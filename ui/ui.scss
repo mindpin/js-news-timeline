@@ -6,3 +6,18 @@ body {
   line-height:1.2em;
   overflow-y:scroll;
 }
+
+.page-news-timeline {
+  width:500px;
+  background-color:rgba(white, 0.05);
+  min-height:100px;
+  position:relative;
+  &:before {
+    content:"";
+    position:absolute;
+    left:249px;
+    width:2px;
+    top:0;bottom:0;
+    background-color:rgba(white, 0.5);
+  }
+}

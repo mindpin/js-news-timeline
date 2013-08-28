@@ -7,6 +7,7 @@
 </head>
 <body>
   <!-- body.html -->
+  <div class='page-news-timeline'></div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -15,6 +16,8 @@
   <script type="text/coffeescript" src="../js/event.js.coffee"></script>
   <script type="text/coffeescript" src="../js/person.js.coffee"></script>
   <script type="text/coffeescript" src="../js/timeline.js.coffee"></script>
+
+  <script type="text/coffeescript" src="../ui/timelineui.js.coffee"></script>
 
   <script type="text/coffeescript">
     timeline = new Timeline
@@ -43,6 +46,9 @@
       .add_event(event2)
 
     window.timeline = timeline
+
+    ui = new TimelineUi(timeline)
+    ui.render()
 
   </script>
 </body>
