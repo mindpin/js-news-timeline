@@ -1,7 +1,8 @@
 # 属性: name, weibo, wiki, events
 
 class Person extends Base
-  constructor: (@name)->
+  constructor: (args)->
+    super(args)
     @events = []
 
   add_event: (event)->

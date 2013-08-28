@@ -1,4 +1,7 @@
 class Base
+  constructor: (obj)->
+    jQuery.extend @, obj
+
   set: (field, value)->
     @[field] = value
     @

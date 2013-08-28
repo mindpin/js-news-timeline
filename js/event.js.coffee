@@ -1,7 +1,8 @@
 # 属性: url, desc, people, time, image
 
 class Event extends Base
-  constructor: (@url)->
+  constructor: (args)->
+    super(args)
     @id = Math.random()
     @persons = []
 

@@ -16,15 +16,12 @@
     <script type="text/coffeescript" src="../js/base.js.coffee"></script>
     <!-- spec files -->
     <script type="text/coffeescript" src="./base.spec.coffee"></script>
-    <script>
-      $(document).on("keydown", function(e) {
-        if (e.which == 13) {
-          $("#mocha").html("")
-          mocha.checkLeaks();
-          mocha.globals(['jQuery']);
-          mocha.run();
-        }
-      });
+    <script type="text/coffeescript">
+      window.expect = chai.expect
+      $("#mocha").html("")
+      mocha.checkLeaks()
+      mocha.globals(['jQuery'])
+      mocha.run()
     </script>
   </body>
 </html>
