@@ -17,8 +17,7 @@
     <!-- spec files -->
     <script type="text/coffeescript" src="./base.spec.coffee"></script>
     <script>
-      $(function() {
-        window.expect = chai.expect
+      $(document).on(function() {
         mocha.checkLeaks();
         mocha.globals(['jQuery']);
         mocha.run();
