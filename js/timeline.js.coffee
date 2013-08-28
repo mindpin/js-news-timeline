@@ -8,8 +8,8 @@ class Timeline extends Base
     @
 
   people: ->
-    @events
-      .map((e)=> e.people)
+    jQuery.unique @events
+      .map((e)=> e.persons)
       .reduce((a, b)=> a.concat b)
 
 jQuery.extend window,
