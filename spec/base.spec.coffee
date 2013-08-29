@@ -48,7 +48,7 @@ describe "Timeline", ->
       expect(timeline.find_person("p2")).to.be.eql(person2)
       expect(timeline.find_person("p4")).to.be.undefined
 
-  describe "#events_except(person [, person2, person3, ...])", ->
+  describe "select methods", ->
     event1 = new Event(time: new Date(1), id: 1)
     event2 = new Event(time: new Date(1001), id: 2)
     event3 = new Event(time: new Date(2001), id: 3)
@@ -64,38 +64,23 @@ describe "Timeline", ->
     person3.add_event(event4)
     [event1, event2, event3, event4].forEach((e)-> timeline.add_event(e))
 
-    it "fetches all the contained events except persons'", ->
-      result1 = timeline.events_except(person1)
-      result2 = timeline.events_except(person2, person3)
-      console.log result1
-      expect(timeline.events).to.have.length(4)
-      expect(result1).to.have.length(2)
-      expect(result1).to.have.members([event3, event4])
-      expect(result2).to.have.members([event1, event2])
-      
-  describe "#events_only(person [, person2, person3, ...])", ->
-    event1 = new Event(time: new Date(1), id: 1)
-    event2 = new Event(time: new Date(1001), id: 2)
-    event3 = new Event(time: new Date(2001), id: 3)
-    event4 = new Event(time: new Date(3001), id: 4)
-    person1 = new Person
-    person2 = new Person
-    person3 = new Person
-    timeline = new Timeline
-
-    person1.add_event(event1)
-    person1.add_event(event2)
-    person2.add_event(event3)
-    person3.add_event(event4)
-    [event1, event2, event3, event4].forEach((e)-> timeline.add_event(e))
-
-    it "fetches events only persons' events", ->
-      result1 = timeline.events_only(person1)
-      result2 = timeline.events_only(person2, person3)
-      expect(timeline.events).to.have.length(4)
-      expect(result1).to.have.length(2)
-      expect(result1).to.have.members([event1, event2])
-      expect(result2).to.have.members([event3, event4])
+    describe "#events_except(person [, person2, person3, ...])", ->
+      it "fetches all the contained events except persons'", ->
+        result1 = timeline.events_except(person1)
+        result2 = timeline.events_except(person2, person3)
+        expect(timeline.events).to.have.length(4)
+        expect(result1).to.have.length(2)
+        expect(result1).to.have.members([event3, event4])
+        expect(result2).to.have.members([event1, event2])
+        
+    describe "#events_only(person [, person2, person3, ...])", ->
+      it "fetches events only persons' events", ->
+        result1 = timeline.events_only(person1)
+        result2 = timeline.events_only(person2, person3)
+        expect(timeline.events).to.have.length(4)
+        expect(result1).to.have.length(2)
+        expect(result1).to.have.members([event1, event2])
+        expect(result2).to.have.members([event3, event4])
       
   describe "#persons()", ->
     event1 = new Event(time: new Date(1))
