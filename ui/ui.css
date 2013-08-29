@@ -7,6 +7,7 @@ body {
   overflow-y: scroll; }
 
 .page-news-timeline {
+  margin: 20px;
   width: 500px;
   background-color: rgba(255, 255, 255, 0.05);
   min-height: 100px;
@@ -19,3 +20,81 @@ body {
     top: 0;
     bottom: 0;
     background-color: rgba(255, 255, 255, 0.5); }
+  .page-news-timeline .event {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    position: absolute;
+    width: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    line-height: 20px;
+    left: 30px;
+    margin-top: 20px; }
+    .page-news-timeline .event .time {
+      color: #F4ECA7;
+      font-weight: bold;
+      font-family: arial;
+      text-align: right;
+      background-color: #555;
+      margin: -10px -10px 10px;
+      border-radius: 3px 3px 0 0;
+      padding: 0 10px;
+      height: 30px;
+      line-height: 30px; }
+    .page-news-timeline .event .url {
+      font-size: 12px;
+      color: #ccc;
+      word-wrap: break-word;
+      word-break: normal;
+      display: block;
+      margin-top: 10px; }
+    .page-news-timeline .event .persons {
+      margin: 10px -5px -5px;
+      padding: 5px;
+      border-radius: 3px;
+      background-color: rgba(255, 255, 255, 0.05); }
+      .page-news-timeline .event .persons .person {
+        position: relative;
+        padding-left: 14px;
+        font-size: 12px; }
+        .page-news-timeline .event .persons .person a {
+          color: #99FFFF;
+          text-decoration: none; }
+          .page-news-timeline .event .persons .person a:hover {
+            color: #ccffff; }
+        .page-news-timeline .event .persons .person:before {
+          content: "";
+          position: absolute;
+          height: 6px;
+          width: 6px;
+          background-color: rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          left: 0px;
+          top: 7px; }
+    .page-news-timeline .event:before {
+      content: "";
+      position: absolute;
+      left: 200px;
+      top: 7px;
+      border: solid 8px transparent;
+      border-left: solid 8px rgba(255, 255, 255, 0.2); }
+    .page-news-timeline .event:after {
+      content: "";
+      position: absolute;
+      background-color: #999;
+      border: solid 2px #ccc;
+      height: 8px;
+      width: 8px;
+      top: 10px;
+      left: 214px;
+      border-radius: 10px; }
+    .page-news-timeline .event.right:before {
+      left: -16px;
+      border: solid 8px transparent;
+      border-right: solid 8px rgba(255, 255, 255, 0.2); }
+    .page-news-timeline .event.right:after {
+      left: -26px; }
+    .page-news-timeline .event.right .time {
+      text-align: left; }

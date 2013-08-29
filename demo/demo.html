@@ -20,32 +20,95 @@
   <script type="text/coffeescript" src="../ui/timelineui.js.coffee"></script>
 
   <script type="text/coffeescript">
-    timeline = new Timeline
+    window.timeline = new Timeline
 
-    event1 = new Event
-      url: 'http://weibo.com/1418521581/A6wuTtFY1'
-      desc: '洋气书生又发了条微博'
-      image: 'http://tp2.sinaimg.cn/1418521581/180/5639678895/1'
-      time: new Date('2013-8-26 13:54')
+    litianyi = new Person
+      name: '李天一'
 
-    event2 = new Event
-      url: 'http://weibo.com/1418521581/A6s46hJn3'
-      desc: '洋气书生又发了条微博'
-      image: 'http://tp2.sinaimg.cn/1418521581/180/5639678895/1'
-      time: new Date('2013-8-26 2:54')
+    yangnvshi = new Person
+      name: '杨女士'
 
-    person1 = new Person
-      name: '洋气书生'
-      weibo: 'http://weibo.com/ben7th'
+    beijingjingfang = new Person
+      name: '北京警方' 
 
-    person1.add_event event1
-    person1.add_event event2
+    cctv_weibo = new Person
+      name: '中央电视台微博'
 
-    timeline
-      .add_event(event1)
-      .add_event(event2)
+    mengge = new Person
+      name: '梦鸽'
 
-    window.timeline = timeline
+    xuezhenyuan = new Person
+      name: '薛振源'
+
+    jianchayuan = new Person
+      name: '海淀区检察院'
+
+    events = [
+      new Event
+        url: 'http://news.163.com/13/0223/15/8ODJ7LJN00011229.html'
+        desc: '2013年2月17日晚,李天一与另外4个男孩在北京五道口一家最低消费为1880元的包间里， 将一名暍醉酒女孩带到湖北大厦房间,轮奸女孩'
+        time: new Date 2013, 1, 17
+      .add_person(litianyi)
+      .add_person(yangnvshi)
+
+      new Event
+        url: 'http://news.163.com/13/0223/15/8ODJ7LJN00011229.html'
+        desc: '2月19日，女子向警方提交控告'
+        time: new Date 2013, 1, 19
+      .add_person(beijingjingfang)
+      .add_person(yangnvshi)
+
+      new Event
+        url: 'http://news.163.com/13/0223/15/8ODJ7LJN00011229.html'
+        desc: '2月21日晚,与丰田、奥迪、皇冠车中的2男1女一同被捕'
+        time: new Date 2013, 1, 21
+      .add_person(litianyi)
+
+      new Event
+        url: 'http://sn.people.com.cn/n/2013/0307/c190215-18263453.html'
+        desc: '3月7曰，中央电视台新闻中心官方微博发布消息称李天一已被检察机关批捕'
+        time: new Date 2013, 2, 7
+      .add_person(litianyi)
+      .add_person(cctv_weibo)
+
+      new Event
+        url: 'http://news.163.com/13/0626/08/929J3HL500011229.html'
+        desc: '3月19日，北京市陆通联合律师事务所接受梦鸽的委托，指派该律师所著名律师薛振源，担任 李天一涉嫌强奸罪一案侦查阶段的辩护人'
+        time: new Date 2013, 2, 19
+      .add_person(mengge)
+      .add_person(xuezhenyuan)
+
+      new Event
+        url: 'http://news.163.com/13/0626/08/929J3HL500011229.html'
+        desc: '5月30日，薛振源与梦鸽正式解除委托关系,辞去为李天一辩护的工作'
+        time: new Date 2013, 4, 30
+      .add_person(mengge)
+      .add_person(xuezhenyuan)
+
+      new Event
+        url: 'http://www.chinanews.com/fz/2013/06-27/4976311.shtml'
+        desc: '6月27日，北京警方称,李天一案进人检方审查起诉阶段。因李天一为未成年人,该案将不公开 审理'
+        time: new Date 2013, 5, 27
+      .add_person(litianyi)
+      .add_person(beijingjingfang)
+
+      new Event
+        url: 'http://ent.sina.com.cn/s/m/2013-07-04/02483956023.shtml'
+        desc: '7月4日，李天一案由于案情复杂,海淀检察院已退回警方补充侦查，最长应在一个月内结束补 充侦査'
+        time: new Date 2013, 6, 4
+      .add_person(litianyi)
+      .add_person(jianchayuan)
+
+      new Event
+        url: 'http://news.163.com/13/0708/15/9395UNPA00011229.html'
+        desc: '7月8日，北京市海淀区人民检察院称已查明李天一等五人的行为涉嫌构成强奸罪，且系轮肝, 依法对李某某等人涉嫌强奸一案向海淀区人民法院提起公诉'
+        time: new Date 2013, 6, 8
+      .add_person(litianyi)
+      .add_person(jianchayuan)
+    ]
+
+    for e in events
+      timeline.add_event e
 
     ui = new TimelineUi(timeline)
     ui.render()
