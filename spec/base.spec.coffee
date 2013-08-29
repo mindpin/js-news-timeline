@@ -28,6 +28,26 @@ describe "Timeline", ->
       expect(timeline.events[1]).to.eql(event2)
       expect(timeline.events[2]).to.eql(event1)
 
+  describe "#find_person(name)", ->
+    event1 = new Event(time: new Date(1))
+    event2 = new Event(time: new Date(1001))
+    event3 = new Event(time: new Date(2001))
+    event4 = new Event(time: new Date(3001))
+    person1 = new Person(name: "p1")
+    person2 = new Person(name: "p2")
+    person3 = new Person(name: "p3")
+    timeline = new Timeline
+
+    person1.add_event(event1)
+    person1.add_event(event2)
+    person2.add_event(event3)
+    person3.add_event(event4)
+    [event1, event2, event3, event4].forEach((e)-> timeline.add_event(e))
+
+    it "fetches person by name", ->
+      expect(timeline.find_person("p2")).to.be.eql(person2)
+      expect(timeline.find_person("p4")).to.be.undefined
+
   describe "#events_except(person)", ->
     event1 = new Event(time: new Date(1))
     event2 = new Event(time: new Date(1001))
@@ -48,7 +68,6 @@ describe "Timeline", ->
       result = timeline.events_except(person1)
       expect(result).to.have.length(2)
       expect(timeline.events).to.have.length(4)
-      console.log(result)
       expect(result).to.have.members([event3, event4])
       
   describe "#persons()", ->
@@ -65,7 +84,6 @@ describe "Timeline", ->
     [event1, event2, event3].forEach((e)-> timeline.add_event(e))
 
     it "returns unique collection of persons", ->
-      console.log timeline.events
       persons = timeline.persons()
       expect(persons).to.have.length(2)
       expect(persons).to.have.members([person1, person2])

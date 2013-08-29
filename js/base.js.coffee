@@ -19,6 +19,19 @@ class Base
     underscored = name[0] + name.slice(1, name.length).replace(/[A-Z]/g, fn)
     underscored.toLowerCase()
 
+class LinkedElement
+  sibling: (offset)->
+    return if !@container
+    return if @container && !@container.events
+    collection = @container.events
+    collection[collection.indexOf(@) + offset]
+
+  prev: ->
+    @sibling(-1)
+    
+  next: ->
+    @sibling(1)
+
 class Container
   exclude: (collection, what, fn)->
     collection.filter (i)->

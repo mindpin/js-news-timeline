@@ -15,5 +15,8 @@ class Timeline extends Base
       .map((e)=> e.persons)
       .reduce((a, b)=> a.concat b)
 
+  find_person: (name)->
+    @persons().filter((person)-> person.name == name)[0]
+
 jQuery.extend window,
   Timeline: Timeline
