@@ -70,6 +70,7 @@ class PersonContainer
   add_person: (person)->
     return @ if @persons.indexOf(person) != -1
     @persons = @persons.concat [person]
+    person.add_event(@) if @class_name() == "event"
     @
 
 jQuery.extend window,
@@ -77,3 +78,4 @@ jQuery.extend window,
   Comparable: Comparable
   EventContainer: EventContainer
   PersonContainer: PersonContainer
+  LinkedElement: LinkedElement
