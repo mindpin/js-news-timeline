@@ -6,28 +6,10 @@ class Timeline extends Base
     @events = []
 
   events_except: ->
-    persons = Array.prototype.slice.call(arguments)
-    events = persons
-      .map((person)-> person.events)
-      .reduce((a, b)-> a.concat b)
-      .filter((event, index, events)-> events.indexOf(event) == index)
-    @events.filter (event)=>
-      events.indexOf(event) == -1
+    @select(arguments, except: true)
 
   events_only: ->
-    persons = Array.prototype.slice.call(arguments)
-    events = persons
-      .map((person)-> person.events)
-      .reduce((a, b)-> a.concat b)
-      .filter((event, index, events)-> events.indexOf(event) == index)
-    @events.filter (event)=>
-      events.indexOf(event) != -1
-
-    # @select(arguments,
-    #         (event, persons)->
-    #           persons
-    #             .some((person)=>
-    #               event.persons.indexOf(person) == -1))
+    @select(arguments, only: true)
 
   persons: ->
     jQuery.unique @events

@@ -1,3 +1,11 @@
+Array::flatten = ->
+  @reduce((a, b)-> a.concat b)
+
+Array::uniq = ->
+  @filter((item, index, items)-> items.indexOf(item) == index)
+
+Array
+
 class Base
   constructor: (obj)->
     jQuery.extend @, obj
@@ -33,15 +41,13 @@ class LinkedItem
     @sibling(1)
 
 class Container
-  select: (things, fn)->
+  select: (things, options)->
+    {except: except, only: only} = options
     collection = Array.prototype.slice.call(things)
-    collection
-      .map((thing)=>
-        @get_collection().filter (item)=>
-          if fn then fn(item, collection) else i == thing)
-      .reduce((a, b)-> a.concat b)
-      .filter((item, index, array)=>
-        array.indexOf(item) == index)
+      .map((thing)-> thing.get_collection()).flatten().uniq()
+    @get_collection().filter (item)=>
+      return collection.indexOf(item) == -1 if except == true
+      collection.indexOf(item) != -1 if only == true
 
   init_collection: ->
     @[@collection_name] = []
