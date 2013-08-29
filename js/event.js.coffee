@@ -2,7 +2,7 @@
 
 class Event extends Base
   jQuery.extend @::, PersonContainer::
-  jQuery.extend @::, LinkedElement::
+  jQuery.extend @::, LinkedItem::
 
   constructor: (args)->
     super(args)
