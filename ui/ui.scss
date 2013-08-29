@@ -1,3 +1,9 @@
+@mixin transition($params){
+     -moz-transition : $params;
+  -webkit-transition : $params;
+          transition : $params;
+}
+
 body {
   background-color:#222;
   padding:0;
@@ -13,6 +19,8 @@ body {
   background-color:rgba(white, 0.05);
   min-height:100px;
   position:relative;
+  margin-top:50px;
+
   &:before {
     content:"";
     position:absolute;
@@ -20,6 +28,72 @@ body {
     width:2px;
     top:0;bottom:0;
     background-color:rgba(white, 0.5);
+  }
+
+  .filters {
+    position:fixed;
+    top:10px;
+    z-index:10;
+
+    .filter {
+      background-color:#ffffda;
+      padding:0 10px;
+      border-radius:3px;
+      color: #333;
+      line-height:30px;
+      display:inline-block;
+      text-decoration:none;
+      margin-right:5px;
+
+      &:not(:first-child){
+        // background-color:rgba(#ffffda, 0.8);
+      }
+
+      &.filter-person {
+        position:relative;
+        padding-right:30px;
+        a.close {
+          display:block;
+          background-color:#D2D2B4;
+          width:20px;height:20px;
+          position:absolute;
+          top:5px;right:5px;
+          border-radius:2px;
+
+          &:hover {
+            background-color:darken(#D2D2B4, 10%);
+          }
+
+          &:before {
+            content:"";
+            width:4px;
+            height:14px;
+            background-color:black;
+            display:block;
+            position:absolute;
+            transform: rotate(45deg);
+            -ms-transform: rotate(45deg); /* IE 9 */
+            -webkit-transform: rotate(45deg); /* Safari and Chrome */
+            left:8px;
+            top:3px;
+          }
+
+          &:after {
+            content:"";
+            width:4px;
+            height:14px;
+            background-color:black;
+            display:block;
+            position:absolute;
+            transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg); /* IE 9 */
+            -webkit-transform: rotate(-45deg); /* Safari and Chrome */
+            left:8px;
+            top:3px;
+          }
+        }
+      }
+    }
   }
 
   .event {
@@ -72,11 +146,15 @@ body {
         font-size:12px;
 
         a {
+          display:inline-block;
           color:#99FFFF;
           text-decoration:none;
+          padding:0 5px;
           &:hover {
             color:lighten(#99FFFF, 10%);
           }
+          @include transition(all ease .2s);
+          border-radius:3px;
         }
 
         &:before {
@@ -85,7 +163,14 @@ body {
           height:6px;width:6px;
           background-color:rgba(white, 0.2);
           border-radius:20px;
-          left:0px;top:7px;
+          left:5px;top:7px;
+        }
+
+        &.selected {
+          a { 
+            background-color:#ffffda; 
+            color:#333;
+          }
         }
       }
     }

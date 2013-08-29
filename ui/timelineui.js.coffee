@@ -24,7 +24,7 @@ class EventUi
     for person in @event.persons
       jQuery('<div></div>')
         .addClass('person')
-        .data('person-name', person.name)
+        .attr('data-person-name', person.name)
         .appendTo(@$persons)
         .append jQuery('<a></a>').attr('href', 'javascript:;').html(person.name)
 
@@ -65,8 +65,15 @@ class TimelineUi
     @$el = jQuery('.page-news-timeline')
 
   render: ->
-    # @$filter = jQuery('<div></div>')
-    #   .addClass('filter')
+    @$filter = jQuery('<div></div>')
+      .addClass('filters')
+      .append(
+        jQuery('<a>全部事件</a>')
+          .addClass('filter')
+          .attr('href', 'javascript:;')
+          .data('find', 'all')
+      )
+      .appendTo(@$el)
 
 
     for evt in @timeline.events
@@ -78,19 +85,54 @@ class TimelineUi
 
   bind: ->
     that = @
+
     @$el.delegate '.person a', 'click', ->
-      person_name = jQuery(this).closest('.person').data('person-name')
+      $person = jQuery(this).closest('.person')
+      person_name = $person.data('person-name')
       person = that.timeline.find_person(person_name)
-      console.log person
-      pevts = person.events
 
-      for evt in that.timeline.events
-        if pevts.indexOf(evt) > -1
-          evt.ui.show()
-        else
-          evt.ui.hide()
+      if $person.hasClass('selected')
+        that.show_all()
+      else
+        that.only_show(person)
 
-      that.rank()
+    @$el.delegate '.filters .filter', 'click', ->
+      find = jQuery(this).data('find')
+      if find == 'all'
+        that.show_all()
+
+    @$el.delegate '.filters .filter-person a.close', 'click', ->
+      that.show_all()
+
+
+  only_show: (person)->
+    pevts = person.events
+    for evt in @timeline.events
+      if pevts.indexOf(evt) > -1
+        evt.ui.show()
+      else
+        evt.ui.hide()
+
+    @$el.find(".person").removeClass('selected')
+    @$el.find(".person[data-person-name=#{person.name}]").addClass('selected')
+    @rank()
+
+    @$filter.find('.filter-person').remove()
+    @$filter.append(
+      jQuery("<div>#{person.name}<a class='close' href='javascript:;'></a></div>")
+        .addClass('filter')
+        .addClass('filter-person')
+        .attr('href', 'javascript:;')
+        .data('find', person.name)
+    )
+
+  show_all: ->
+    for evt in @timeline.events
+      evt.ui.show()
+    @$el.find(".person").removeClass('selected')
+    @rank()
+
+    @$filter.find('.filter-person').remove()
 
   rank: ->
     window.ltop = 0
