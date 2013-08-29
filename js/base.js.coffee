@@ -33,9 +33,15 @@ class LinkedItem
     @sibling(1)
 
 class Container
-  exclude: (collection, what, fn)->
-    collection.filter (i)->
-      if fn then fn(i) else i != what
+  select: (things, fn)->
+    collection = Array.prototype.slice.call(things)
+    collection
+      .map((thing)=>
+        @get_collection().filter (item)=>
+          if fn then fn(item, collection) else i == thing)
+      .reduce((a, b)-> a.concat b)
+      .filter((item, index, array)=>
+        array.indexOf(item) == index)
 
   init_collection: ->
     @[@collection_name] = []

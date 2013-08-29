@@ -6,8 +6,7 @@ class Event extends Base
 
   constructor: (args)->
     super(args)
-    @id = Math.random()
-    @persons = []
+    @init_collection()
 
 jQuery.extend window,
   Event: Event
