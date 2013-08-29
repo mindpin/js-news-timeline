@@ -19,11 +19,11 @@ class Base
     underscored = name[0] + name.slice(1, name.length).replace(/[A-Z]/g, fn)
     underscored.toLowerCase()
 
-class LinkedElement
+class LinkedItem
   sibling: (offset)->
     return if !@container
-    return if @container && !@container.events
-    collection = @container.events
+    return if @container && !@container.get_collection()
+    collection = @container.get_collection()
     collection[collection.indexOf(@) + offset]
 
   prev: ->
@@ -37,7 +37,26 @@ class Container
     collection.filter (i)->
       if fn then fn(i) else i != what
 
-class Comparable
+  init_collection: ->
+    @[@collection_name] = []
+
+  get_collection: ->
+    @[@collection_name]
+
+  link: (item)->
+    item.container = @
+
+  sort: ->
+    @[@collection_name] = @get_collection().sort(@compare(@sort_by)) if @sort_by
+    @
+
+  add: (item)->
+    return @ if @get_collection().indexOf(item) != -1
+    @[@collection_name] = @get_collection().concat([item])
+    item.add(@) if item.collection_for() == @constructor
+    @sort().link(item)
+
+class Sortable
   compare: (field)->
     (e1, e2)->
       t1 = if field then e1[field] else e1
@@ -47,35 +66,28 @@ class Comparable
       return 1  if t1 <  t2
 
 class EventContainer
+  jQuery.extend @::, Sortable::
   jQuery.extend @::, Container::
-  jQuery.extend @::, Comparable::
 
-  events: []
-
-  link: (event)->
-    event.container = @
+  collection_for:  -> Event
+  collection_name: "events"
+  sort_by: "time"
 
   add_event: (event)->
-    return @ if @events.indexOf(event) != -1
-    @events = @events.concat([event]).sort(@compare("time"))
-    @link(event)
-    event.add_person(@) if @class_name() == "person"
-    @
+    @add(event)
 
 class PersonContainer
   jQuery.extend @::, Container::
 
-  persons: []
+  collection_for:  -> Person
+  collection_name: "persons"
 
   add_person: (person)->
-    return @ if @persons.indexOf(person) != -1
-    @persons = @persons.concat [person]
-    person.add_event(@) if @class_name() == "event"
-    @
+    @add(person)
 
 jQuery.extend window,
   Base: Base
-  Comparable: Comparable
+  Sortable: Sortable
   EventContainer: EventContainer
   PersonContainer: PersonContainer
-  LinkedElement: LinkedElement
+  LinkedItem: LinkedItem

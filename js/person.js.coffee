@@ -5,7 +5,7 @@ class Person extends Base
 
   constructor: (args)->
     super(args)
-    @events = []
+    @init_collection()
 
 jQuery.extend window,
   Person: Person
