@@ -19,6 +19,11 @@ class Base
     underscored = name[0] + name.slice(1, name.length).replace(/[A-Z]/g, fn)
     underscored.toLowerCase()
 
+class Container
+  exclude: (collection, what, fn)->
+    collection.filter (i)->
+      if fn then fn(i) else i != what
+
 class Comparable
   compare: (field)->
     (e1, e2)->
@@ -29,6 +34,7 @@ class Comparable
       return 1  if t1 <  t2
 
 class EventContainer
+  jQuery.extend @::, Container::
   jQuery.extend @::, Comparable::
 
   events: []
@@ -44,6 +50,8 @@ class EventContainer
     @
 
 class PersonContainer
+  jQuery.extend @::, Container::
+
   persons: []
 
   add_person: (person)->

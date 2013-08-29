@@ -5,6 +5,11 @@ class Timeline extends Base
     super()
     @events = []
 
+  events_except: (person)->
+    @exclude(@events,
+             person,
+             (event)-> (event.persons.indexOf(person) == -1))
+
   persons: ->
     jQuery.unique @events
       .map((e)=> e.persons)

@@ -13,7 +13,7 @@ describe "Base", ->
       expect(foo_bar.bar).to.eql(bar)
     
 describe "Timeline", ->
-  describe "add_event(event)", ->
+  describe "#add_event(event)", ->
     event1 = new Event(time: new Date(1))
     event2 = new Event(time: new Date(1001))
     event3 = new Event(time: new Date(2001))
@@ -28,6 +28,29 @@ describe "Timeline", ->
       expect(timeline.events[1]).to.eql(event2)
       expect(timeline.events[2]).to.eql(event1)
 
+  describe "#events_except(person)", ->
+    event1 = new Event(time: new Date(1))
+    event2 = new Event(time: new Date(1001))
+    event3 = new Event(time: new Date(2001))
+    event4 = new Event(time: new Date(3001))
+    person1 = new Person
+    person2 = new Person
+    person3 = new Person
+    timeline = new Timeline
+
+    person1.add_event(event1)
+    person1.add_event(event2)
+    person2.add_event(event3)
+    person3.add_event(event4)
+    [event1, event2, event3, event4].forEach((e)-> timeline.add_event(e))
+
+    it "fetches all the contained events except person's", ->
+      result = timeline.events_except(person1)
+      expect(result).to.have.length(2)
+      expect(timeline.events).to.have.length(4)
+      console.log(result)
+      expect(result).to.have.members([event3, event4])
+      
   describe "#persons()", ->
     event1 = new Event(time: new Date(1))
     event2 = new Event(time: new Date(1001))
@@ -42,11 +65,10 @@ describe "Timeline", ->
     [event1, event2, event3].forEach((e)-> timeline.add_event(e))
 
     it "returns unique collection of persons", ->
+      console.log timeline.events
       persons = timeline.persons()
       expect(persons).to.have.length(2)
       expect(persons).to.have.members([person1, person2])
-
-
 
 describe "Event", ->
   describe "#add_person(person)", ->
@@ -75,13 +97,14 @@ describe "Event", ->
     
     [event1, event2, event3].forEach((e)-> timeline.add_event(e))
 
-    it "#prev()", ->
-      expect(event2.prev()).to.eql(event3)
-      expect(event3.prev()).to.be.undefined
-      expect(event4.prev()).to.be.undefined
+    describe "#prev()", ->
+      it "fetches previous event if present", ->
+        expect(event2.prev()).to.eql(event3)
+        expect(event3.prev()).to.be.undefined
+        expect(event4.prev()).to.be.undefined
 
-    it "#next()", ->
-      console.log timeline.events, event2.next(), event1
-      expect(event2.next()).to.eql(event1)
-      expect(event1.next()).to.be.undefined
-      expect(event4.next()).to.be.undefined
+    describe "#next()", ->
+      it "fetches next event if present", ->
+        expect(event2.next()).to.eql(event1)
+        expect(event1.next()).to.be.undefined
+        expect(event4.next()).to.be.undefined
