@@ -94,9 +94,10 @@ class PersonUi
       .addClass('weibo')
       .html "微博: #{@person.weibo || ''}"
 
+    wiki = @person.wiki || ''
     @$wiki = jQuery('<div></div>')
       .addClass('wiki')
-      .html "维基: #{@person.wiki || ''}"
+      .append "<span>维基:</span> <a href='#{wiki}' target='_blank'>#{wiki}</a>"
 
     @build_images()
 
