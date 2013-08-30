@@ -132,7 +132,6 @@ describe "Timeline", ->
 
     it "returns unique collection of persons", ->
       persons = timeline.persons()
-      console.log persons
       expect(persons).to.have.length(2)
       expect(persons).to.have.members([person1, person2])
 
