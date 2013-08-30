@@ -10,29 +10,32 @@ body {
   margin:0;
   font-size:14px;
   line-height:1.2em;
-  overflow-y:scroll;
 }
 
-.page-news-timeline {
-  margin:20px;
-  width:500px;
+.page-news-timeline-container {
+  position:fixed;
+  width:510px;
   background-color:rgba(white, 0.05);
-  min-height:100px;
-  position:relative;
-  margin-top:50px;
+  top:0;left:0;bottom:0;
+  overflow-y:scroll;
 
   &:before {
     content:"";
-    position:absolute;
-    left:249px;
-    width:2px;
+    position:fixed;
+    left:248px;
+    width:4px;
     top:0;bottom:0;
     background-color:rgba(white, 0.5);
   }
 
+}
+
+.page-news-timeline {
+  min-height:100px;
+
   .filters {
     position:fixed;
-    top:10px;
+    top:10px;left:520px;
     z-index:10;
 
     .filter {

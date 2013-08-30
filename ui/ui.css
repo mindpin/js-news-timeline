@@ -3,27 +3,31 @@ body {
   padding: 0;
   margin: 0;
   font-size: 14px;
-  line-height: 1.2em;
-  overflow-y: scroll; }
+  line-height: 1.2em; }
 
-.page-news-timeline {
-  margin: 20px;
-  width: 500px;
+.page-news-timeline-container {
+  position: fixed;
+  width: 510px;
   background-color: rgba(255, 255, 255, 0.05);
-  min-height: 100px;
-  position: relative;
-  margin-top: 50px; }
-  .page-news-timeline:before {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: scroll; }
+  .page-news-timeline-container:before {
     content: "";
-    position: absolute;
-    left: 249px;
-    width: 2px;
+    position: fixed;
+    left: 248px;
+    width: 4px;
     top: 0;
     bottom: 0;
     background-color: rgba(255, 255, 255, 0.5); }
+
+.page-news-timeline {
+  min-height: 100px; }
   .page-news-timeline .filters {
     position: fixed;
     top: 10px;
+    left: 520px;
     z-index: 10; }
     .page-news-timeline .filters .filter {
       background-color: #ffffda;

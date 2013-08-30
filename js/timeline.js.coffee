@@ -5,18 +5,38 @@ class Timeline extends Base
     super()
     @events = []
 
+  # 取得不包含这几个人的 events
   events_except: ->
-    @select(arguments, except: true)
+    args = arguments
+    @events.filter (evt)=>
+      flag = true
+      for person in [args...]
+        if evt.has(person)
+          flag = false
+          break
+      flag
 
+  # 取得至少包含这几个人之一的 events
   events_only: ->
-    @select(arguments, only: true)
+    args = arguments
+    @events.filter (evt)=>
+      flag = false
+      for person in [args...]
+        if evt.has(person)
+          flag = true
+          break
+      flag
 
+  # 取得 events，其中每个event都要包含这几个人
   common_events: ->
-    args = Array.slice(arguments)
-    result = args.map((thing)-> thing.get_collection()).reduce (array1, array2)->
-      array1.filter (item)->
-        array2.indexOf(item) != -1 && item.constructor == Event
-    result
+    args = arguments
+    @events.filter (evt)=>
+      flag = true
+      for person in [args...]
+        if !evt.has(person)
+          flag = false
+          break
+      flag
 
   persons: ->
     jQuery.unique @events

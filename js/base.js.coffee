@@ -68,10 +68,13 @@ class Container
     @
 
   add: (item)->
-    return @ if @get_collection().indexOf(item) != -1
-    @[@collection_name] = @get_collection().concat([item])
+    return @ if @has(item)
+    @get_collection().push(item)
     item.add(@) if item.collection_for() == @constructor
     @sort().link(item)
+
+  has: (item)->
+    @get_collection().indexOf(item) != -1
 
 class Sortable
   compare: (field)->

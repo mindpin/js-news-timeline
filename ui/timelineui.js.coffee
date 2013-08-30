@@ -64,6 +64,8 @@ class TimelineUi
   constructor: (@timeline)->
     @$el = jQuery('.page-news-timeline')
 
+    @person_filters = []
+
   render: ->
     @$filter = jQuery('<div></div>')
       .addClass('filters')
@@ -94,7 +96,7 @@ class TimelineUi
       if $person.hasClass('selected')
         that.show_all()
       else
-        that.only_show(person)
+        that.add_person_filter(person)
 
     @$el.delegate '.filters .filter', 'click', ->
       find = jQuery(this).data('find')
@@ -104,20 +106,19 @@ class TimelineUi
     @$el.delegate '.filters .filter-person a.close', 'click', ->
       that.show_all()
 
+  add_person_filter: (person)->
+    @person_filters.push person
 
-  only_show: (person)->
-    pevts = person.events
+    pevts = timeline.events_only(@person_filters...)
     for evt in @timeline.events
       if pevts.indexOf(evt) > -1
         evt.ui.show()
       else
         evt.ui.hide()
 
-    @$el.find(".person").removeClass('selected')
     @$el.find(".person[data-person-name=#{person.name}]").addClass('selected')
     @rank()
 
-    @$filter.find('.filter-person').remove()
     @$filter.append(
       jQuery("<div>#{person.name}<a class='close' href='javascript:;'></a></div>")
         .addClass('filter')
@@ -125,6 +126,21 @@ class TimelineUi
         .attr('href', 'javascript:;')
         .data('find', person.name)
     )
+
+  # only_show: (person)->
+  #   pevts = person.events
+  #   for evt in @timeline.events
+  #     if pevts.indexOf(evt) > -1
+  #       evt.ui.show()
+  #     else
+  #       evt.ui.hide()
+
+  #   @$el.find(".person").removeClass('selected')
+  #   @$el.find(".person[data-person-name=#{person.name}]").addClass('selected')
+  #   @rank()
+
+  #   @$filter.find('.filter-person').remove()
+
 
   show_all: ->
     for evt in @timeline.events
