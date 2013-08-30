@@ -105,6 +105,8 @@ class EventUi
     @$persons = jQuery('<div></div>')
       .addClass('persons')
 
+    @build_images()
+
     for person in @event.persons
       jQuery('<div></div>')
         .addClass('person')
@@ -117,8 +119,24 @@ class EventUi
       .append(@$time)
       .append(@$desc)
       .append(@$url)
+      .append(@$images)
       .append(@$persons)
       .appendTo(@ui.$el)
+
+  build_images: ->
+    @$images = jQuery('<div></div>')
+      .addClass('images')
+
+    for url in @event.images
+      $a = jQuery("<a href='javascript:;'></a>")
+        .appendTo(@$images)
+
+      $img = jQuery('<div></div>')
+        .addClass('img')
+        .data('src', url)
+        .appendTo($a)
+
+      new FitImage($img).load_image()
 
   size: ->
     return {
