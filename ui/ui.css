@@ -191,12 +191,13 @@ body {
         .page-news-timeline .event .persons .person:before {
           content: "";
           position: absolute;
-          height: 6px;
-          width: 6px;
-          background-color: rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
-          left: 5px;
-          top: 7px; }
+          height: 14px;
+          width: 14px;
+          background-image: url(glyphicons-halflings-white.png);
+          background-position: -168px 0;
+          left: 0px;
+          top: 3px;
+          opacity: 0.5; }
         .page-news-timeline .event .persons .person.selected a {
           background-color: #ffffda;
           color: #333; }
