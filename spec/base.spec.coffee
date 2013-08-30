@@ -38,9 +38,9 @@ describe "Base", ->
     
 describe "Timeline", ->
   describe "#add_event(event)", ->
-    event1 = new Event(time: new Date(1))
-    event2 = new Event(time: new Date(1001))
-    event3 = new Event(time: new Date(2001))
+    event1 = new Event(time: new Date(1), id:1)
+    event2 = new Event(time: new Date(1001), id:2)
+    event3 = new Event(time: new Date(2001), id:3)
     timeline = new Timeline
 
     it "sorts the order by Event#time", ->
@@ -132,6 +132,7 @@ describe "Timeline", ->
 
     it "returns unique collection of persons", ->
       persons = timeline.persons()
+      console.log persons
       expect(persons).to.have.length(2)
       expect(persons).to.have.members([person1, person2])
 
@@ -164,12 +165,12 @@ describe "Event", ->
 
     describe "#prev()", ->
       it "fetches previous event if present", ->
-        expect(event2.prev()).to.eql(event3)
-        expect(event3.prev()).to.be.undefined
-        expect(event4.prev()).to.be.undefined
+        expect(event2.prev).to.eql(event3)
+        expect(event3.prev).to.be.undefined
+        expect(event4.prev).to.be.undefined
 
     describe "#next()", ->
       it "fetches next event if present", ->
-        expect(event2.next()).to.eql(event1)
-        expect(event1.next()).to.be.undefined
-        expect(event4.next()).to.be.undefined
+        expect(event2.next).to.eql(event1)
+        expect(event1.next).to.be.undefined
+        expect(event4.next).to.be.undefined

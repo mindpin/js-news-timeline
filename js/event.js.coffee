@@ -2,11 +2,13 @@
 
 class Event extends Base
   jQuery.extend @::, PersonContainer::
-  jQuery.extend @::, LinkedItem::
 
   constructor: (args)->
     super(args)
     @init_collection()
+
+  more_recent_than: (evt)->
+    @time >= evt.time
 
 jQuery.extend window,
   Event: Event

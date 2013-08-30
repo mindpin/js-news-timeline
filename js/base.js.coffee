@@ -32,19 +32,6 @@ class Base
     underscored = name[0] + name.slice(1, name.length).replace(/[A-Z]/g, fn)
     underscored.toLowerCase()
 
-class LinkedItem
-  sibling: (offset)->
-    return if !@container
-    return if @container && !@container.get_collection()
-    collection = @container.get_collection()
-    collection[collection.indexOf(@) + offset]
-
-  prev: ->
-    @sibling(-1)
-    
-  next: ->
-    @sibling(1)
-
 class Container
   select: (things, options)->
     {except: except, only: only} = options
@@ -63,38 +50,47 @@ class Container
   link: (item)->
     item.container = @
 
-  sort: ->
-    @[@collection_name] = @get_collection().sort(@compare(@sort_by)) if @sort_by
-    @
-
   add: (item)->
     return @ if @has(item)
     @get_collection().push(item)
     item.add(@) if item.collection_for() == @constructor
-    @sort().link(item)
+    @link(item)
 
   has: (item)->
     @get_collection().indexOf(item) != -1
 
-class Sortable
-  compare: (field)->
-    (e1, e2)->
-      t1 = if field then e1[field] else e1
-      t2 = if field then e2[field] else e2
-      return -1 if t1 >  t2
-      return 0  if t1 == t2
-      return 1  if t1 <  t2
-
 class EventContainer
-  jQuery.extend @::, Sortable::
   jQuery.extend @::, Container::
 
   collection_for:  -> Event
   collection_name: "events"
   sort_by: "time"
 
-  add_event: (event)->
-    @add(event)
+  add_event: (input_event)->
+    return @ if @has(input_event)
+    return @ if input_event.constructor != Event
+
+    i = 0
+    for evt in @events
+      if input_event.more_recent_than(evt)
+        if evt.prev
+          input_event.prev = evt.prev
+          evt.prev.next = input_event
+
+        evt.prev = input_event
+        input_event.next = evt
+
+        break
+      i++
+
+    arr0 = @events[0...i]
+    arr1 = [input_event]
+    arr2 = @events[i...@events.length]
+
+    @events = arr0.concat(arr1).concat(arr2)
+
+    input_event.add(@) if @.constructor == Person
+
 
 class PersonContainer
   jQuery.extend @::, Container::
@@ -107,7 +103,5 @@ class PersonContainer
 
 jQuery.extend window,
   Base: Base
-  Sortable: Sortable
   EventContainer: EventContainer
   PersonContainer: PersonContainer
-  LinkedItem: LinkedItem
