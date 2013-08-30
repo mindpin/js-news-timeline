@@ -11,6 +11,8 @@
     <div class='page-news-timeline content'></div>
   </div>
 
+  <div class='page-main'></div>
+
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
   <script type="text/javascript" src="../js/coffee-script.js"></script>
@@ -26,6 +28,8 @@
 
     litianyi = new Person
       name: '李天一'
+      wiki: 'http://www.baike.com/wiki/%E6%9D%8E%E5%A4%A9%E4%B8%80'
+    .add_image('http://sh.sinaimg.cn/cr/2013/0311/192591077.jpg')
 
     yangnvshi = new Person
       name: '杨女士'
@@ -35,15 +39,18 @@
 
     cctv_weibo = new Person
       name: '中央电视台微博'
+    .add_image('http://static.quna.com/meishi/caipuimg/957/126957.jpg')
 
     mengge = new Person
       name: '梦鸽'
 
     xuezhenyuan = new Person
       name: '薛振源'
+    .add_image('http://wp4.sina.cn/woriginal/52e0e4f8jw1e2vih9e6txj.jpg')
 
     jianchayuan = new Person
       name: '海淀区检察院'
+    .add_image('http://www.jcrb.com/zhuanti/fzzt/byjcx/hjgqtj/201105/W020110530690867382768.jpg')
 
     events = [
       new Event
@@ -74,7 +81,7 @@
         time: new Date 2013, 2, 7
       .add_person(litianyi)
       .add_person(cctv_weibo)
-      .add_image('http://t3.baidu.com/it/u=394841261,1399039629&fm=23&gp=0.jpg')
+      .add_image('http://static.quna.com/meishi/caipuimg/957/126957.jpg')
 
       new Event
         url: 'http://news.163.com/13/0626/08/929J3HL500011229.html'

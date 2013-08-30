@@ -62,6 +62,43 @@ body {
   font-size: 14px;
   line-height: 1.2em; }
 
+.page-main {
+  background-color: rgba(255, 255, 255, 0.05);
+  position: fixed;
+  top: 50px;
+  left: 510px;
+  right: 10px;
+  bottom: 0; }
+  .page-main .person {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    margin: 5px;
+    color: white;
+    padding: 10px;
+    width: 500px;
+    line-height: 1.5em; }
+    .page-main .person .name {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px; }
+    .page-main .person .images {
+      margin-top: 10px; }
+      .page-main .person .images:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .page-main .person .images a {
+        display: block;
+        float: left;
+        margin-right: 3px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); }
+        .page-main .person .images a .img {
+          width: 150px;
+          height: 150px;
+          overflow: hidden; }
+
 .page-news-timeline-container {
   position: fixed;
   width: 500px;
@@ -84,7 +121,7 @@ body {
   .page-news-timeline .filters {
     position: fixed;
     top: 10px;
-    left: 520px;
+    left: 510px;
     z-index: 10; }
     .page-news-timeline .filters .filter {
       background-color: #ffffda;
@@ -213,7 +250,7 @@ body {
         display: block;
         float: left;
         margin-right: 3px;
-        box-shadow: 0 0 2px black; }
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); }
         .page-news-timeline .event .images a .img {
           width: 80px;
           height: 80px;
