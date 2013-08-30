@@ -13,9 +13,10 @@ class Timeline extends Base
 
   common_events: ->
     args = Array.slice(arguments)
-    args.map((thing)-> thing.get_collection())
-    args.reduce()
-    @get_collection().filter()
+    result = args.map((thing)-> thing.get_collection()).reduce (array1, array2)->
+      array1.filter (item)->
+        array2.indexOf(item) != -1 && item.constructor == Event
+    result
 
   persons: ->
     jQuery.unique @events

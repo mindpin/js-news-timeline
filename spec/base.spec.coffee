@@ -112,8 +112,10 @@ describe "Timeline", ->
       
     describe "#common_events(person [, person2, person3, ...])", ->
       it "fetches events from persons events intersection", ->
-        result = timeline.common_events(person1, person2, person3)
-        expect(result).to.have.members([event5])
+        result1 = timeline.common_events(person1, person2, person3)
+        result2 = timeline.common_events(person1, person2)
+        expect(result1).to.have.members([event6])
+        expect(result2).to.have.members([event5, event6])
 
   describe "#persons()", ->
     event1 = new Event(time: new Date(1))
