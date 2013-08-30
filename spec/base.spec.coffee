@@ -173,3 +173,14 @@ describe "Event", ->
         expect(event2.next).to.eql(event1)
         expect(event1.next).to.be.undefined
         expect(event4.next).to.be.undefined
+
+describe "ImageFlow", ->
+  describe "#add_image(urls)", ->
+    person = new Person
+    event  = new Event
+
+    it "adds image into images", ->
+      person.add_image("1", "2", "3")
+      event.add_image("4", "5", "6")
+      expect(event.images).to.have.members(["4", "5", "6"])
+      expect(person.images).to.have.members(["1", "2", "3"])

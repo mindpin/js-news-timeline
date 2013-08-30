@@ -5,7 +5,12 @@ class Person extends Base
 
   constructor: (args)->
     super(args)
+    @images = []
     @init_collection()
+
+  add_image: (urls)->
+    [arguments...].forEach (url)=>
+      @images.push(url)
 
 jQuery.extend window,
   Person: Person
