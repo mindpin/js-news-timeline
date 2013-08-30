@@ -11,6 +11,12 @@ class Timeline extends Base
   events_only: ->
     @select(arguments, only: true)
 
+  common_events: ->
+    args = Array.slice(arguments)
+    args.map((thing)-> thing.get_collection())
+    args.reduce()
+    @get_collection().filter()
+
   persons: ->
     jQuery.unique @events
       .map((e)=> e.persons)

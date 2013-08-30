@@ -1,3 +1,27 @@
+describe "Array", ->
+  describe ".slice(argsobj)", ->
+    argsobj = (()-> arguments)(1, 2, 3, 4)
+
+    it "creates an array from an arguments object", ->
+      result = Array.slice(argsobj)
+      expect(argsobj).not.to.be.an("array")
+      expect(result).to.be.an("array")
+      expect(result).to.eql([1, 2, 3, 4])
+
+  describe "#flatten()", ->
+    array = [1, [2], [3, 4]]
+
+    it "flattens the array", ->
+      result = array.flatten()
+      expect(result).to.eql([1, 2, 3, 4])
+      
+  describe "#uniq()", ->
+    array = [1, 1, 1, 2, 2, 2, 3, 4, 3, 5]
+
+    it "creates an array only contain uniq values", ->
+      result = array.uniq()
+      expect(result).to.eql([1, 2, 3, 4, 5])
+
 describe "Base", ->
   class FooBar extends Base
 
@@ -53,6 +77,8 @@ describe "Timeline", ->
     event2 = new Event(time: new Date(1001), id: 2)
     event3 = new Event(time: new Date(2001), id: 3)
     event4 = new Event(time: new Date(3001), id: 4)
+    event5 = new Event(time: new Date(4001), id: 5)
+    event6 = new Event(time: new Date(5001), id: 6)
     person1 = new Person
     person2 = new Person
     person3 = new Person
@@ -62,26 +88,33 @@ describe "Timeline", ->
     person1.add_event(event2)
     person2.add_event(event3)
     person3.add_event(event4)
-    [event1, event2, event3, event4].forEach((e)-> timeline.add_event(e))
+    [person1, person2].forEach((p)-> p.add(event5))
+    [person1, person2, person3].forEach((p)-> p.add(event6))
+    [event1, event2, event3, event4, event5, event6].forEach((e)-> timeline.add_event(e))    
 
-    describe "#events_except(person [, person2, person3, ...])", ->
+    describe "#events_except(person1 [, person2, person3, ...])", ->
       it "fetches all the contained events except persons'", ->
         result1 = timeline.events_except(person1)
         result2 = timeline.events_except(person2, person3)
-        expect(timeline.events).to.have.length(4)
+        expect(timeline.events).to.have.length(6)
         expect(result1).to.have.length(2)
         expect(result1).to.have.members([event3, event4])
         expect(result2).to.have.members([event1, event2])
         
-    describe "#events_only(person [, person2, person3, ...])", ->
+    describe "#events_only(person1 [, person2, person3, ...])", ->
       it "fetches events only persons' events", ->
         result1 = timeline.events_only(person1)
         result2 = timeline.events_only(person2, person3)
-        expect(timeline.events).to.have.length(4)
-        expect(result1).to.have.length(2)
-        expect(result1).to.have.members([event1, event2])
-        expect(result2).to.have.members([event3, event4])
+        expect(timeline.events).to.have.length(6)
+        expect(result1).to.have.length(4)
+        expect(result1).to.have.members([event1, event2, event5, event6])
+        expect(result2).to.have.members([event3, event4, event5, event6])
       
+    describe "#common_events(person [, person2, person3, ...])", ->
+      it "fetches events from persons events intersection", ->
+        result = timeline.common_events(person1, person2, person3)
+        expect(result).to.have.members([event5])
+
   describe "#persons()", ->
     event1 = new Event(time: new Date(1))
     event2 = new Event(time: new Date(1001))

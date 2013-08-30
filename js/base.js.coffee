@@ -1,10 +1,15 @@
+(Array.slice = (obj)-> @::slice.call(obj)) if !Array.slice
+
 Array::flatten = ->
-  @reduce((a, b)-> a.concat b)
+  @reduce ((a, b)-> a.concat b), []
 
 Array::uniq = ->
   @filter((item, index, items)-> items.indexOf(item) == index)
 
-Array
+Array::intersection = ->
+  arrays = Array.slice(arguments)
+  arrays.reduce (array1, array2)->
+    #array1.filter (item)
 
 class Base
   constructor: (obj)->
@@ -43,7 +48,7 @@ class LinkedItem
 class Container
   select: (things, options)->
     {except: except, only: only} = options
-    collection = Array.prototype.slice.call(things)
+    collection = Array.slice(things)
       .map((thing)-> thing.get_collection()).flatten().uniq()
     @get_collection().filter (item)=>
       return collection.indexOf(item) == -1 if except == true
