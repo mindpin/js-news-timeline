@@ -174,7 +174,7 @@ describe "Event", ->
         expect(event1.next).to.be.undefined
         expect(event4.next).to.be.undefined
 
-describe "ImageFlow", ->
+describe "ImageRow", ->
   describe "#add_image(urls)", ->
     person = new Person
     event  = new Event

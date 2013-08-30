@@ -88,7 +88,16 @@ class PersonContainer
   add_person: (person)->
     @add(person)
 
+class ImageRow
+  init_images: ->
+    @images = []
+
+  add_image: (urls)->
+    [arguments...].forEach (url)=>
+      @images.push(url)
+
 jQuery.extend window,
   Base: Base
+  ImageRow: ImageRow
   EventContainer: EventContainer
   PersonContainer: PersonContainer
