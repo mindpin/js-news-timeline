@@ -128,7 +128,7 @@ class EventUi
       .addClass('images')
 
     for url in @event.images
-      $a = jQuery("<a href='javascript:;'></a>")
+      $a = jQuery("<a href='#{url}' target='_blank'></a>")
         .appendTo(@$images)
 
       $img = jQuery('<div></div>')
