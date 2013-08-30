@@ -328,6 +328,8 @@ class TimelineUi
     @person_filters = []
     @show_filter_events()
 
+    @$main.find('.person').remove()
+
     @$el.find(".person").removeClass('selected')
     @$filter.find('.filter-person').remove()
 
