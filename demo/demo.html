@@ -7,8 +7,8 @@
 </head>
 <body>
   <!-- body.html -->
-  <div class='page-news-timeline-container'>
-    <div class='page-news-timeline'></div>
+  <div class='page-news-timeline-container nano'>
+    <div class='page-news-timeline content'></div>
   </div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -52,6 +52,7 @@
         time: new Date 2013, 1, 17
       .add_person(litianyi)
       .add_person(yangnvshi)
+      .add_image('http://sh.sinaimg.cn/cr/2013/0311/192591077.jpg')
 
       new Event
         url: 'http://news.163.com/13/0223/15/8ODJ7LJN00011229.html'
@@ -112,8 +113,9 @@
     for e in events
       timeline.add_event e
 
-    ui = new TimelineUi(timeline)
-    ui.render()
+    jQuery ->
+      ui = new TimelineUi(timeline)
+      ui.render()
 
   </script>
 </body>
