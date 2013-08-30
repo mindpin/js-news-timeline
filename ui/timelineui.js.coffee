@@ -51,19 +51,48 @@ class EventUi
 
   show: ->
     @_is_hide = false
-    @$el.fadeIn()
 
   hide: ->
     @_is_hide = true
-    @$el.fadeOut()
 
   is_hide: ->
     @_is_hide == true
 
+  animate: (side, left, top)->
+    if side
+
+      if side == 'right'
+        @$el.addClass('right')
+      else
+        @$el.removeClass('right')
+
+      @$el.show()
+      @$el
+        .animate
+          left: left
+          top: top
+          opacity: if @is_hide() then 0 else 1
+          =>
+            if @is_hide()
+            then @$el.hide()
+            else @$el.show()
+
+      return @
+
+    @$el.show()
+    @$el
+      .animate
+        opacity: if @is_hide() then 0 else 1
+        =>
+          if @is_hide()
+          then @$el.hide()
+          else @$el.show()
+
+    return @
+
 class TimelineUi
   constructor: (@timeline)->
     @$el = jQuery('.page-news-timeline')
-
     @person_filters = []
 
   render: ->
@@ -72,8 +101,8 @@ class TimelineUi
       .append(
         jQuery('<a>全部事件</a>')
           .addClass('filter')
+          .addClass('filter-all')
           .attr('href', 'javascript:;')
-          .data('find', 'all')
       )
       .appendTo(@$el)
 
@@ -88,100 +117,106 @@ class TimelineUi
   bind: ->
     that = @
 
+    # 点击事件内的相关人员，按人员过滤
     @$el.delegate '.person a', 'click', ->
       $person = jQuery(this).closest('.person')
       person_name = $person.data('person-name')
       person = that.timeline.find_person(person_name)
 
       if $person.hasClass('selected')
-        that.show_all()
+        that.remove_person_filter(person)
       else
         that.add_person_filter(person)
 
-    @$el.delegate '.filters .filter', 'click', ->
-      find = jQuery(this).data('find')
-      if find == 'all'
-        that.show_all()
+    # 点击“全部事件”，清除人员过滤器
+    @$el.delegate '.filters .filter-all', 'click', ->
+      that.clear_person_filters()
 
     @$el.delegate '.filters .filter-person a.close', 'click', ->
-      that.show_all()
+      $filter_person = jQuery(this).closest('.filter-person')
+      person_name = $filter_person.data('person-name')
+      person = that.timeline.find_person(person_name)
+
+      that.remove_person_filter(person)
 
   add_person_filter: (person)->
     @person_filters.push person
+    @show_filter_events()
 
-    pevts = timeline.events_only(@person_filters...)
+    @$el
+      .find('.person')
+      .filter("[data-person-name=#{person.name}]")
+      .addClass('selected')
+
+    @$filter.append(
+      jQuery("<div>#{person.name}<a class='close' href='javascript:;'></a></div>")
+        .addClass('filter')
+        .addClass('filter-person')
+        .attr('data-person-name', person.name)
+        .attr('href', 'javascript:;')
+        .data('find', person.name)
+    )
+
+  remove_person_filter: (person)->
+    @person_filters.splice @person_filters.indexOf(person), 1
+    @show_filter_events()
+
+    @$el
+      .find('.person')
+      .filter("[data-person-name=#{person.name}]")
+      .removeClass('selected')
+
+    @$filter
+      .find('.filter-person')
+      .filter("[data-person-name=#{person.name}]")
+      .remove()
+
+  clear_person_filters: ->
+    @person_filters = []
+    @show_filter_events()
+
+    @$el.find(".person").removeClass('selected')
+    @$filter.find('.filter-person').remove()
+
+  show_filter_events: ->
+    pevts = timeline.common_events(@person_filters...)
     for evt in @timeline.events
       if pevts.indexOf(evt) > -1
         evt.ui.show()
       else
         evt.ui.hide()
 
-    @$el.find(".person[data-person-name=#{person.name}]").addClass('selected')
     @rank()
-
-    @$filter.append(
-      jQuery("<div>#{person.name}<a class='close' href='javascript:;'></a></div>")
-        .addClass('filter')
-        .addClass('filter-person')
-        .attr('href', 'javascript:;')
-        .data('find', person.name)
-    )
-
-  # only_show: (person)->
-  #   pevts = person.events
-  #   for evt in @timeline.events
-  #     if pevts.indexOf(evt) > -1
-  #       evt.ui.show()
-  #     else
-  #       evt.ui.hide()
-
-  #   @$el.find(".person").removeClass('selected')
-  #   @$el.find(".person[data-person-name=#{person.name}]").addClass('selected')
-  #   @rank()
-
-  #   @$filter.find('.filter-person').remove()
-
-
-  show_all: ->
-    for evt in @timeline.events
-      evt.ui.show()
-    @$el.find(".person").removeClass('selected')
-    @rank()
-
-    @$filter.find('.filter-person').remove()
 
   rank: ->
-    window.ltop = 0
-    window.rtop = 0
+    @ltop = 0
+    @rtop = 0
+    Y_OFFSET = 70
+    X_LEFT = 30
+    X_RIGHT = 270
 
     for evt in @timeline.events
-      continue if evt.ui.is_hide()
+      if evt.ui.is_hide()
+        evt.ui.animate()
+        continue
 
-      # console.log evt
+      if @ltop <= @rtop
+        if @rtop - @ltop < Y_OFFSET
+          @rtop = @ltop + Y_OFFSET
 
-      if window.ltop <= window.rtop
-        if window.rtop - window.ltop < 70
-          window.rtop = window.ltop + 70
+        evt.ui.animate('left', X_LEFT, @ltop)
 
-        evt.ui.$el
-          .removeClass('right')
-          .animate
-            left: 30
-            top: window.ltop
-        window.ltop += evt.ui.size().height
+        @ltop += evt.ui.size().height
       else
-        if window.ltop - window.rtop < 70
-          window.ltop = window.rtop + 70
+        if @ltop - @rtop < Y_OFFSET
+          @ltop = @rtop + Y_OFFSET
 
-        evt.ui.$el
-          .addClass('right')
-          .animate
-            left: 270
-            top: window.rtop
-        window.rtop += evt.ui.size().height
+        evt.ui.animate('right', X_RIGHT, @rtop)
+
+        @rtop += evt.ui.size().height
 
     @$el.animate
-      height: Math.max(window.ltop, window.rtop) + 30
+      height: Math.max(@ltop, @rtop) + 30
 
 
 
