@@ -2,15 +2,12 @@
 
 class Person extends Base
   jQuery.extend @::, EventContainer::
+  jQuery.extend @::, ImageRow::
 
   constructor: (args)->
     super(args)
-    @images = []
+    @init_images()
     @init_collection()
-
-  add_image: (urls)->
-    [arguments...].forEach (url)=>
-      @images.push(url)
 
 jQuery.extend window,
   Person: Person
