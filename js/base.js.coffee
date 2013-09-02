@@ -1,12 +1,45 @@
-(Array.slice = (obj)-> @::slice.call(obj)) if !Array.slice
+class JSONSerializable
+  toJSON: ->
+    @["#class"] = @constructor.name
+    @
 
-Array::flatten = ->
-  @reduce ((a, b)-> a.concat b), []
+  defined_class: (v)->
+    typeof v      == "object" &&
+    v             != null     &&
+    v.constructor != Object   &&
+    v.constructor != Array
 
-Array::uniq = ->
-  @filter((item, index, items)-> items.indexOf(item) == index)
+  serialize: ->
+    cache = {}; counter = 0; self = @
+    json = JSON.stringify @, (k, v)->
+      if self.defined_class(v)
+        return {ref: v.ref_id} if v.ref_id
+        counter++
+        v.ref_id = "#{v.constructor.name}#{counter}"
+        cache[v.ref_id] = v
+      v
+    console.log("cache2---->", cache)
+    json
+
+  @deserialize: (json)->
+    cache = {}
+    obj = JSON.parse json, (k, v)->
+      if @ref_id
+        cache[@ref_id] = @
+        delete @ref_id
+      if v.ref
+        return cache[v.ref]
+      if @["#class"]
+        @.__proto__ = window[@["#class"]]::
+        delete @["#class"]
+      v
+    console.log("cache2---->", cache)
+    obj
 
 class Base
+  jQuery.extend @, JSONSerializable
+  jQuery.extend @::, JSONSerializable::
+
   constructor: (obj)->
     jQuery.extend @, obj
 
@@ -102,3 +135,5 @@ jQuery.extend window,
   ImageRow: ImageRow
   EventContainer: EventContainer
   PersonContainer: PersonContainer
+
+console.log Base

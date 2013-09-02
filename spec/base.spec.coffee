@@ -1,27 +1,3 @@
-describe "Array", ->
-  describe ".slice(argsobj)", ->
-    argsobj = (()-> arguments)(1, 2, 3, 4)
-
-    it "creates an array from an arguments object", ->
-      result = Array.slice(argsobj)
-      expect(argsobj).not.to.be.an("array")
-      expect(result).to.be.an("array")
-      expect(result).to.eql([1, 2, 3, 4])
-
-  describe "#flatten()", ->
-    array = [1, [2], [3, 4]]
-
-    it "flattens the array", ->
-      result = array.flatten()
-      expect(result).to.eql([1, 2, 3, 4])
-      
-  describe "#uniq()", ->
-    array = [1, 1, 1, 2, 2, 2, 3, 4, 3, 5]
-
-    it "creates an array only contain uniq values", ->
-      result = array.uniq()
-      expect(result).to.eql([1, 2, 3, 4, 5])
-
 describe "Base", ->
   class FooBar extends Base
 
@@ -184,3 +160,36 @@ describe "ImageRow", ->
       event.add_image("4", "5", "6")
       expect(event.images).to.have.members(["4", "5", "6"])
       expect(person.images).to.have.members(["1", "2", "3"])
+
+describe "JSONSerializable", ->
+  event1   = new Event(time: new Date(1),    id: 1)
+  event2   = new Event(time: new Date(1001), id: 2)
+  event3   = new Event(time: new Date(2001), id: 3)
+  person1  = new Person(id: 1)
+  person2  = new Person(id: 2)
+  person3  = new Person(id: 3)
+  timeline = new Timeline
+  timeline.a_property = "a property"
+
+  person1.add_event(event1)
+  person1.add_event(event2)
+  person2.add_event(event3)
+  person3.add_event(event3)
+
+  [event1, event2, event3].forEach((e)-> timeline.add_event(e))
+  json = timeline.serialize()
+  obj = Timeline.deserialize(json)
+
+  describe "#serialize()", ->
+    it "serializes object to json", ->
+      expect(json).to.contain("#class")
+      expect(json).to.contain("Timeline")
+
+  describe ".deserialize()", ->
+    it "deserializes json to object", ->
+      expect(obj).to.be.an.instanceof(Timeline)
+      expect(obj.a_property).to.eql("a property")
+      expect(obj.events).to.have.length(3)
+      expect(obj.events[0].id).to.eql(3)
+      expect(obj.events[0].persons).to.have.length(2)
+      expect(obj.persons()).to.have.length(3)
