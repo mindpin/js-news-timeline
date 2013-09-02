@@ -10,19 +10,18 @@ class JSONSerializable
     v.constructor != Array
 
   serialize: ->
-    cache = {}; counter = 0; self = @
-    json = JSON.stringify @, (k, v)->
-      if self.defined_class(v)
+    cache = {}; counter = 0
+    JSON.stringify @, (k, v)=>
+      if @defined_class(v)
         return {ref: v.ref_id} if v.ref_id
         counter++
         v.ref_id = "#{v.constructor.name}#{counter}"
         cache[v.ref_id] = v
       v
-    json
 
   @deserialize: (json)->
     cache = {}
-    obj = JSON.parse json, (k, v)->
+    JSON.parse json, (k, v)->
       if @ref_id
         cache[@ref_id] = @
         delete @ref_id
@@ -31,7 +30,6 @@ class JSONSerializable
         @.__proto__ = window[@["#class"]]::
         delete @["#class"]
       v
-    obj
 
 class Base
   jQuery.extend @, JSONSerializable
@@ -72,6 +70,13 @@ class Container
 
   link: (item)->
     item.container = @
+
+  select: (cond, options, whats)->
+    has = options.has
+    @get_collection().filter (item)=>
+      [whats...][cond] (what)=>
+        owns = item.has(what)
+        if has then owns else !owns
 
   link_before: (input, item)->
     if item.prev

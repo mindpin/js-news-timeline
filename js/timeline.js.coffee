@@ -7,24 +7,15 @@ class Timeline extends Base
 
   # 取得不包含这几个人的 events
   events_except: ->
-    args = arguments
-    @events.filter (evt)=>
-      [args...].every (person)=>
-        !evt.has(person)
+    @select('every', has: false, arguments)
 
   # 取得至少包含这几个人之一的 events
   events_only: ->
-    args = arguments
-    @events.filter (evt)=>
-      [args...].some (person)=>
-        evt.has(person)
+    @select('some', has: true, arguments)
 
   # 取得 events，其中每个event都要包含这几个人
   common_events: ->
-    args = arguments
-    @events.filter (evt)=>
-      [args...].every (person)=>
-        evt.has(person)
+    @select('every', has: true, arguments)
 
   persons: ->
     jQuery.unique @events
