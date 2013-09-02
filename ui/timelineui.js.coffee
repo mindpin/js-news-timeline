@@ -83,6 +83,52 @@ class FitImage
       .css('margin-top', top)
 
 class PersonUi
+  constructor: (@ui, @person)->
+
+  render: ->
+    @$name = jQuery('<div></div>')
+      .addClass('name')
+      .html(@person.name)
+
+    @$weibo = jQuery('<div></div>')
+      .addClass('weibo')
+      .html "微博: #{@person.weibo || ''}"
+
+    wiki = @person.wiki || ''
+    @$wiki = jQuery('<div></div>')
+      .addClass('wiki')
+      .append "<span>维基:</span> <a href='#{wiki}' target='_blank'>#{wiki}</a>"
+
+    @build_images()
+
+    @$el = jQuery('<div></div>')
+      .addClass('person')
+      .append(@$name)
+      .append(@$weibo)
+      .append(@$wiki)
+      .append(@$images)
+      .appendTo(@ui.$main)
+
+  hide: ->
+    @$el.hide()
+
+  remove: ->
+    @$el.remove()
+
+  build_images: ->
+    @$images = jQuery('<div></div>')
+      .addClass('images')
+
+    for url in @person.images
+      $a = jQuery("<a href='#{url}' target='_blank'></a>")
+        .appendTo(@$images)
+
+      $img = jQuery('<div></div>')
+        .addClass('img')
+        .data('src', url)
+        .appendTo($a)
+
+      new FitImage($img).load_image()
 
 class EventUi
   constructor: (@ui, @event)->
@@ -105,6 +151,8 @@ class EventUi
     @$persons = jQuery('<div></div>')
       .addClass('persons')
 
+    @build_images()
+
     for person in @event.persons
       jQuery('<div></div>')
         .addClass('person')
@@ -117,8 +165,24 @@ class EventUi
       .append(@$time)
       .append(@$desc)
       .append(@$url)
+      .append(@$images)
       .append(@$persons)
       .appendTo(@ui.$el)
+
+  build_images: ->
+    @$images = jQuery('<div></div>')
+      .addClass('images')
+
+    for url in @event.images
+      $a = jQuery("<a href='#{url}' target='_blank'></a>")
+        .appendTo(@$images)
+
+      $img = jQuery('<div></div>')
+        .addClass('img')
+        .data('src', url)
+        .appendTo($a)
+
+      new FitImage($img).load_image()
 
   size: ->
     return {
@@ -177,6 +241,7 @@ class EventUi
 class TimelineUi
   constructor: (@timeline)->
     @$el = jQuery('.page-news-timeline')
+    @$main = jQuery('.page-main')
     @person_filters = []
 
   render: ->
@@ -227,6 +292,8 @@ class TimelineUi
     @person_filters.push person
     @show_filter_events()
 
+    person.ui = new PersonUi(@, person).render()
+
     @$el
       .find('.person')
       .filter("[data-person-name=#{person.name}]")
@@ -245,6 +312,8 @@ class TimelineUi
     @person_filters.splice @person_filters.indexOf(person), 1
     @show_filter_events()
 
+    person.ui.remove()
+
     @$el
       .find('.person')
       .filter("[data-person-name=#{person.name}]")
@@ -258,6 +327,8 @@ class TimelineUi
   clear_person_filters: ->
     @person_filters = []
     @show_filter_events()
+
+    @$main.find('.person').remove()
 
     @$el.find(".person").removeClass('selected')
     @$filter.find('.filter-person').remove()

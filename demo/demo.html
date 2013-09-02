@@ -11,6 +11,8 @@
     <div class='page-news-timeline content'></div>
   </div>
 
+  <div class='page-main'></div>
+
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
   <script type="text/javascript" src="../js/coffee-script.js"></script>
@@ -26,6 +28,8 @@
 
     litianyi = new Person
       name: '李天一'
+      wiki: 'http://www.baike.com/wiki/%E6%9D%8E%E5%A4%A9%E4%B8%80'
+    .add_image('http://sh.sinaimg.cn/cr/2013/0311/192591077.jpg')
 
     yangnvshi = new Person
       name: '杨女士'
@@ -35,15 +39,18 @@
 
     cctv_weibo = new Person
       name: '中央电视台微博'
+    .add_image('http://static.quna.com/meishi/caipuimg/957/126957.jpg')
 
     mengge = new Person
       name: '梦鸽'
 
     xuezhenyuan = new Person
       name: '薛振源'
+    .add_image('http://wp4.sina.cn/woriginal/52e0e4f8jw1e2vih9e6txj.jpg')
 
     jianchayuan = new Person
       name: '海淀区检察院'
+    .add_image('http://www.jcrb.com/zhuanti/fzzt/byjcx/hjgqtj/201105/W020110530690867382768.jpg')
 
     events = [
       new Event
@@ -66,6 +73,7 @@
         desc: '2月21日晚,与丰田、奥迪、皇冠车中的2男1女一同被捕'
         time: new Date 2013, 1, 21
       .add_person(litianyi)
+      .add_image('http://img4.cache.netease.com/photo/0001/2013-02-23/600x450_8OCQAL5K00AN0001.jpg')
 
       new Event
         url: 'http://sn.people.com.cn/n/2013/0307/c190215-18263453.html'
@@ -73,6 +81,7 @@
         time: new Date 2013, 2, 7
       .add_person(litianyi)
       .add_person(cctv_weibo)
+      .add_image('http://static.quna.com/meishi/caipuimg/957/126957.jpg')
 
       new Event
         url: 'http://news.163.com/13/0626/08/929J3HL500011229.html'
@@ -80,6 +89,7 @@
         time: new Date 2013, 2, 19
       .add_person(mengge)
       .add_person(xuezhenyuan)
+      .add_image('http://wp4.sina.cn/woriginal/52e0e4f8jw1e2vih9e6txj.jpg')
 
       new Event
         url: 'http://news.163.com/13/0626/08/929J3HL500011229.html'
@@ -101,6 +111,7 @@
         time: new Date 2013, 6, 4
       .add_person(litianyi)
       .add_person(jianchayuan)
+      .add_image('http://www.jcrb.com/zhuanti/fzzt/byjcx/hjgqtj/201105/W020110530690867382768.jpg')
 
       new Event
         url: 'http://news.163.com/13/0708/15/9395UNPA00011229.html'
@@ -108,6 +119,8 @@
         time: new Date 2013, 6, 8
       .add_person(litianyi)
       .add_person(jianchayuan)
+      .add_image('http://www.hebradio.com/d4zx/201308/W020130829335648899706.jpg')
+      .add_image('http://upload.tianhenet.com.cn/uploadfile/2013-08/137773616430020.jpg')
     ]
 
     for e in events

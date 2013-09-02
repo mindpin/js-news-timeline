@@ -74,6 +74,54 @@ body {
   line-height:1.2em;
 }
 
+.page-main {
+  background-color:rgba(white, 0.05);
+  position:fixed;
+  top:50px;
+  left:510px;
+  right:10px;
+  bottom:0;
+
+  a {color:#CCCCCC;}
+
+  .person {
+    background-color:rgba(white, 0.05);
+    border-radius:3px;
+    margin:5px;
+    color:white;
+    padding:10px;
+    width:500px;
+    line-height:1.5em;
+
+    .name {
+      font-size:16px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    .images {
+      margin-top:10px;
+      &:after {
+        content:".";display:block;height:0;clear:both;visibility:hidden;
+      }
+
+      a {
+        display:block;
+        float:left;
+        // border:solid 1px rgba(white, 0.1);
+        // padding:1px;
+        margin-right:3px;
+        box-shadow:0 0 2px rgba(black, 0.5);
+
+        .img {
+          width:150px;height:150px;overflow:hidden;
+        }
+      }
+    }
+
+  }
+}
+
 .page-news-timeline-container {
   position:fixed;
   width:500px;
@@ -89,7 +137,6 @@ body {
     top:0;bottom:0;
     background-color:rgba(white, 0.5);
   }
-
 }
 
 .page-news-timeline {
@@ -97,7 +144,7 @@ body {
 
   .filters {
     position:fixed;
-    top:10px;left:520px;
+    top:10px;left:510px;
     z-index:10;
 
     .filter {
@@ -226,10 +273,11 @@ body {
         &:before {
           content:"";
           position:absolute;
-          height:6px;width:6px;
-          background-color:rgba(white, 0.2);
-          border-radius:20px;
-          left:5px;top:7px;
+          height:14px;width:14px;
+          background-image:url(glyphicons-halflings-white.png);
+          background-position: -168px 0;
+          left:0px;top:3px;
+          opacity:0.5;
         }
 
         &.selected {
@@ -237,6 +285,26 @@ body {
             background-color:#ffffda; 
             color:#333;
           }
+        }
+      }
+    }
+
+    .images {
+      margin-top:10px;
+      &:after {
+        content:".";display:block;height:0;clear:both;visibility:hidden;
+      }
+
+      a {
+        display:block;
+        float:left;
+        // border:solid 1px rgba(white, 0.1);
+        // padding:1px;
+        margin-right:3px;
+        box-shadow:0 0 2px rgba(black, 0.5);
+
+        .img {
+          width:80px;height:80px;overflow:hidden;
         }
       }
     }
