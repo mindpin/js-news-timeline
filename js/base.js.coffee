@@ -18,7 +18,6 @@ class JSONSerializable
         v.ref_id = "#{v.constructor.name}#{counter}"
         cache[v.ref_id] = v
       v
-    console.log("cache2---->", cache)
     json
 
   @deserialize: (json)->
@@ -27,13 +26,11 @@ class JSONSerializable
       if @ref_id
         cache[@ref_id] = @
         delete @ref_id
-      if v.ref
-        return cache[v.ref]
+      return cache[v.ref] if v.ref
       if @["#class"]
         @.__proto__ = window[@["#class"]]::
         delete @["#class"]
       v
-    console.log("cache2---->", cache)
     obj
 
 class Base
@@ -135,5 +132,3 @@ jQuery.extend window,
   ImageRow: ImageRow
   EventContainer: EventContainer
   PersonContainer: PersonContainer
-
-console.log Base

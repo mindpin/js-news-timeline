@@ -193,3 +193,4 @@ describe "JSONSerializable", ->
       expect(obj.events[0].id).to.eql(3)
       expect(obj.events[0].persons).to.have.length(2)
       expect(obj.persons()).to.have.length(3)
+      expect(obj.persons()[2]).to.be.an.instanceof(Person)
